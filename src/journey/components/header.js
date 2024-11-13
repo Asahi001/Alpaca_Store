@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../usecontext";
 
 const navMsg = "Welcome to the Alpaca Store 🙏";
 
@@ -45,9 +46,11 @@ const countries = [
 const phone = "95731-189779";
 
 export default function Header() {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [navOption, setNavOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(undefined);
+  const [navOption, setNavOption] = useState(undefined);
   const navigate = useNavigate();
+  const getContxtState = useContext(GlobalContext);
+  const { screen } = { ...getContxtState };
 
   const handleCountrySelect = (option) => {
     setSelectedOption(option);
@@ -58,65 +61,70 @@ export default function Header() {
       <nav className="bg-blue-600 h-8 flex justify-center text-lg text-white">
         {navMsg}
       </nav>
-      <nav className="bg-blue-400 h-10 text-lg text-white pl-16 pr-16">
-        <div className="grid grid-cols-2 grid-flow-col h-8 content-center">
-          <div className="self-center">
-            {navigation.map((ele) => {
-              return (
-                <button
-                  type="button"
-                  className={`mr-8 hover:underline underline-offset-4 font-bold font-mono`}
-                  onClick={(event) => {
-                    setNavOption(event?.target?.innerText);
-                    if (event?.target?.innerText === "Home") {
-                      navigate("/");
-                    } else {
-                      const navigateUrl = "/" + event?.target?.innerText;
-                      navigate(navigateUrl);
-                    }
-                  }}
-                >
-                  {ele?.name}
-                </button>
-              );
-            })}
-          </div>
-          <div className="flex text-center justify-end gap-8">
-            {phone}
-            <div>
-              <span className="">Country Selected: </span>
-              <select
-                name="countries"
-                id="countries"
-                value={selectedOption}
-                onChange={(e) => handleCountrySelect(e.target.value)}
-                className="text-white outline-none bg-blue-400 font-bold"
-              >
-                <option
-                  value=""
-                  className={`${selectedOption ? "bg-white" : ""} text-black`}
-                >
-                  Select
-                </option>
-                {countries.map((option, index) => (
-                  <option
-                    className={` text-black ${
-                      selectedOption &&
-                      selectedOption.split("(")[0] === option?.country
-                        ? ""
-                        : "bg-white"
-                    }`}
-                    key={index}
-                    value={option?.country + "(" + option?.symbol + ")"}
+      {screen === "Des" ? (
+        <nav className="bg-blue-400 h-10 text-lg text-white pl-16 pr-16">
+          <div className="grid grid-cols-2 grid-flow-col h-8 content-center">
+            <div className="self-center">
+              {navigation.map((ele, idx) => {
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`mr-8 hover:underline underline-offset-4 font-bold font-mono`}
+                    onClick={(event) => {
+                      setNavOption(event?.target?.innerText);
+                      if (event?.target?.innerText === "Home") {
+                        navigate("/");
+                      } else {
+                        const navigateUrl = "/" + event?.target?.innerText;
+                        navigate(navigateUrl);
+                      }
+                    }}
                   >
-                    {option?.country + " - " + option?.symbol}
+                    {ele?.name}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="flex text-center justify-end gap-8">
+              {phone}
+              <div>
+                <span className="">Country Selected: </span>
+                <select
+                  name="countries"
+                  id="countries"
+                  value={selectedOption}
+                  onChange={(e) => handleCountrySelect(e.target.value)}
+                  className="text-white outline-none bg-blue-400 font-bold"
+                >
+                  <option
+                    value=""
+                    className={`${selectedOption ? "bg-white" : ""} text-black`}
+                  >
+                    Select
                   </option>
-                ))}
-              </select>
+                  {countries.map((option, index) => (
+                    <option
+                      className={` text-black ${
+                        selectedOption &&
+                        selectedOption.split("(")[0] === option?.country
+                          ? ""
+                          : "bg-white"
+                      }`}
+                      key={index}
+                      value={option?.country + "(" + option?.symbol + ")"}
+                    >
+                      {option?.country + " - " + option?.symbol}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      ) : (
+        <></>
+      )}
     </>
   );
 }

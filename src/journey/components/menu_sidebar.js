@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ReactComponent as Cross } from "../../assets/icons/x-circle.svg";
 import { ReactComponent as Down } from "../../assets/icons/arrow-down.svg";
 import { ReactComponent as Up } from "../../assets/icons/arrow-up.svg";
@@ -6,10 +6,13 @@ import { ReactComponent as Facebook } from "../../assets/icons/facebook.svg";
 import { ReactComponent as Twitter } from "../../assets/icons/twitter.svg";
 import { ReactComponent as Youtube } from "../../assets/icons/youtube.svg";
 import { ReactComponent as Instagram } from "../../assets/icons/instagram.svg";
+import { GlobalContext } from "../usecontext";
 
 export default function MenuSidebar(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [accordianTracker, setAccordianTracker] = useState([]);
+  const getContxtState = useContext(GlobalContext);
+  const { screen } = { ...getContxtState };
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -89,7 +92,7 @@ export default function MenuSidebar(props) {
 
   return (
     <div className="h-screen w-screen relative">
-      <div className="z-30 absolute top-0 left-0 w-1/3 h-full bg-white overflow-y-auto">
+      <div className="z-30 absolute top-0 left-0 lg:w-1/3 sm:w-2/3 h-full bg-white overflow-y-auto">
         <div className="flex justify-end pt-4 pr-4 text-blue-500">
           <button
             onClick={() => {
@@ -202,14 +205,18 @@ export default function MenuSidebar(props) {
         </div>
       </div>
 
-      <div
-        onClick={() => {
-          props.passModal(false);
-        }}
-        className="z-30 absolute top-0 left-1/3 w-2/3 h-full bg-black opacity-50"
-      >
-        {" "}
-      </div>
+      {screen === "Des" ? (
+        <div
+          onClick={() => {
+            props.passModal(false);
+          }}
+          className="z-30 absolute top-0 left-1/3 w-2/3 h-full bg-black opacity-50"
+        >
+          {" "}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

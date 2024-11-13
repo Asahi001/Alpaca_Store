@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./pages.css";
 import AutoImageCarousel from "../components/carousel";
 import image1 from "../../assets/images/bicycle-01.jpg";
@@ -19,12 +19,15 @@ import MenuSidebar from "../components/menu_sidebar";
 import Header from "../components/header";
 import { useNavigate } from "react-router-dom";
 import CartModal from "../components/cart";
+import { GlobalContext } from "../usecontext";
 
 export default function Dashboard() {
   const [showMenu, setShowMenu] = useState(false);
   const [menuData, setMenuData] = useState(false);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
+  const getContxtState = useContext(GlobalContext);
+  const { screen } = { ...getContxtState };
 
   const imageLst = [image1, image2, image3, image4];
   const bsList = [
@@ -101,18 +104,18 @@ export default function Dashboard() {
   return (
     <>
       <Header />
-      <div className="h-screen relative">
+      <div className="lg:h-screen relative">
         <AutoImageCarousel
           imageList={imageLst}
           speed="3000"
-          slidesToShow="2"
+          slidesToShow={screen === "Des" ? "2" : "1"}
           slidesToScroll="1"
           autoplaySpeed="4000"
         />
         <div className="overlay absolute top-0 left-0 w-full h-24 bg-black opacity-0"></div>
 
         <div className="overlay-content absolute top-0 left-0 w-full h-24 text-red-500 pl-16 pr-16">
-          <span className="grid grid-flow-col grid-cols-3">
+          <span className="grid grid-flow-col lg:grid-cols-3 sm:grid-cols-2">
             <button
               className="flex justify-start items-center h-24 w-10"
               onClick={() => {
@@ -126,6 +129,43 @@ export default function Dashboard() {
               <Menu />
             </button>
 
+            {screen === "Des" ? (
+              <span className="flex gap-2 items-center justify-center h-24">
+                <span style={textStyle} className="text-4xl text-white">
+                  {storeName}
+                </span>
+                <img
+                  className="w-8 h-8 relative"
+                  src={alpaca}
+                  alt={`Image Not Found - 404`}
+                />
+              </span>
+            ) : (
+              <></>
+            )}
+
+            <span className="flex gap-2 items-center h-24 justify-end">
+              <button
+                onClick={() => {
+                  navigate("/signin");
+                }}
+              >
+                <User />
+              </button>
+              <button
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                  setShowCart(true);
+                }}
+              >
+                <Cart />
+              </button>
+            </span>
+          </span>
+          {screen !== "Des" ? (
             <span className="flex gap-2 items-center justify-center h-24">
               <span style={textStyle} className="text-4xl text-white">
                 {storeName}
@@ -136,35 +176,20 @@ export default function Dashboard() {
                 alt={`Image Not Found - 404`}
               />
             </span>
-
-            <span className="flex gap-2 items-center h-24 justify-end">
-              <button onClick={() => {
-                navigate("/signin");
-              }}>
-                <User />
-              </button>
-              <button onClick={() => {
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                  setShowCart(true);
-              }}>
-                <Cart />
-              </button>
-            </span>
-          </span>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       ``
       <div>
         <span
           style={textStyle2}
-          className="text-6xl font-extrabold h-36 w-full flex justify-center items-center font-sans text-red-500"
+          className="lg:text-6xl sm:text-4xl font-extrabold h-36 w-full flex justify-center items-center font-sans text-red-500"
         >
           Best Selling Bikes
         </span>
-        <div className="grid grid-cols-2 px-12 grid-flow-row gap-6">
+        <div className="grid lg:grid-cols-2 sm:grid-cols-1 px-12 grid-flow-row gap-6">
           {bsList.map((ele, index) => (
             <div key={index}>
               <img

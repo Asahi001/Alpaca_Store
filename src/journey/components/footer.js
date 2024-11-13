@@ -16,7 +16,7 @@ export default function Footer() {
 
   return (
     <span>
-      <div className="w-screen mt-0.5 p-16 bg-black grid grid-cols-4 grid-flow-col gap-4 text-white">
+      <div className="w-screen mt-0.5 p-16 bg-black grid lg:grid-cols-4 md:grid-cols-2 grid-flow-row lg:gap-4 sm:gap-4 text-white">
         <div className="flex flex-col gap-1">
           <span className="pb-4">SHOP</span>
           <span>Bikes</span>
@@ -56,7 +56,7 @@ export default function Footer() {
           </form>
         </div>
 
-        <div className="pl-16">
+        <div className="pl-16 sm:mt-8">
           <img
             className="w-30 h-20"
             src={alpaca}

@@ -22,7 +22,7 @@ function AutoImageCarousel(props) {
       {images.map((image, index) => (
         <div key={index}>
           <img
-            className="w-screen h-screen"
+            className="w-full sm:h-1/2 lg:h-screen"
             src={image}
             alt={`Image ${index + 1}`}
           />
