@@ -185,12 +185,12 @@ export default function Dashboard() {
       <div>
         <span
           style={textStyle2}
-          className="lg:text-6xl sm:text-4xl font-extrabold h-36 w-full flex justify-center items-center font-sans text-red-500"
+          className="lg:text-6xl sm:text-4xl font-extrabold lg:h-36 sm:h-20 w-full flex justify-center items-center font-sans text-red-500"
         >
           Best Selling Bikes
         </span>
-        <div className="grid lg:grid-cols-2 sm:grid-cols-1 px-12 grid-flow-row gap-6">
-          {bsList.map((ele, index) => (
+        <div className="grid lg:grid-cols-3 sm:grid-cols-2 px-12 grid-flow-row gap-4">
+          {bsList?.map((ele, index) => (
             <div key={index}>
               <img
                 className="w-full h-80 hover:border-4 hover:border-blue-200 hover:cursor-pointer"

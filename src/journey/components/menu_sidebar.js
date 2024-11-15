@@ -92,7 +92,7 @@ export default function MenuSidebar(props) {
 
   return (
     <div className="h-screen w-screen relative">
-      <div className="z-30 absolute top-0 left-0 lg:w-1/3 sm:w-2/3 h-full bg-white overflow-y-auto">
+      <div className="z-30 fixed top-0 left-0 lg:w-1/3 sm:w-full h-full bg-white overflow-y-auto">
         <div className="flex justify-end pt-4 pr-4 text-blue-500">
           <button
             onClick={() => {
@@ -118,9 +118,9 @@ export default function MenuSidebar(props) {
           </button>
         </form>
         <div className="pt-8 px-4 w-full">
-          {accordianList.map((ele) => {
+          {accordianList.map((ele, idx) => {
             return (
-              <>
+              <div key={idx}>
                 <div className="flex flex-row py-4 border-b-2 border-blue-100 hover:bg-blue-200 px-2 rounded-lg">
                   <div className="text-xl font-bold w-80 hover:cursor-pointer">
                     {ele?.label}
@@ -154,14 +154,17 @@ export default function MenuSidebar(props) {
                 </div>
                 {ele?.list?.length > 0 &&
                   accordianTracker.find((acc) => acc === ele?.label) &&
-                  ele?.list?.map((lst) => {
+                  ele?.list?.map((lst, idx) => {
                     return (
-                      <div className="text-xl w-full py-2 px-6 bg-blue-100 hover:bg-blue-200 rounded-lg hover:cursor-pointer mb-1">
+                      <div
+                        key={idx}
+                        className="text-xl w-full py-2 px-6 bg-blue-100 hover:bg-blue-200 rounded-lg hover:cursor-pointer mb-1"
+                      >
                         {lst?.type}
                       </div>
                     );
                   })}
-              </>
+              </div>
             );
           })}
         </div>
@@ -210,7 +213,7 @@ export default function MenuSidebar(props) {
           onClick={() => {
             props.passModal(false);
           }}
-          className="z-30 absolute top-0 left-1/3 w-2/3 h-full bg-black opacity-50"
+          className="z-30 fixed top-0 left-1/3 w-2/3 h-full bg-black opacity-50"
         >
           {" "}
         </div>
